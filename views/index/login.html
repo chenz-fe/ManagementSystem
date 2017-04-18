@@ -14,18 +14,18 @@
             <div class="avatar">
                 <img src="/uploads/monkey.png" class="img-circle" alt="">
             </div>
-            <form action="" class="col-md-offset-1 col-md-10">
+            <form id="loginForm" action="" class="col-md-offset-1 col-md-10">
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon">
                         <i class="fa fa-user"></i>
                     </span>
-                    <input type="text" class="form-control" placeholder="用户名">
+                    <input type="text" class="form-control" placeholder="用户名" name="tc_name" value="前端学院">
                 </div>
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon">
                         <i class="fa fa-key"></i>
                     </span>
-                    <input type="password" class="form-control" placeholder="密码">
+                    <input type="password" class="form-control" placeholder="密码" name="tc_pass" value="123456">
                 </div>
                 <button type="submit" class="btn btn-lg btn-primary btn-block">登 录</button>
             </form>
@@ -33,6 +33,34 @@
     </div>
 
     <?php include_once( './views/common/script.html' ) ?>
+    <script>
+        // 监听表单提交事件
+        $('#loginForm').on('submit', function () {
+            // 序列化表单值, 把数据转换为 key=value&&key=value 形式的字符串
+            var FormData = $(this).serialize();
+
+            // 提交后, 发送 ajax 请求
+            $.ajax({
+                url: '/api/login',
+                type: 'POST',
+                data: FormData,
+                success: function (info) {
+                    //console.log(info);
+                    
+                    if (info.code == 200) {
+                        alert('登录成功!');
+                        
+                        // 存储数据
+                        $.cookie('profile', JSON.stringify(info.result), { path: '/' });
+                    }
+                    // 跳转到首页
+                    location.href = '/';
+                }
+            })
+            // 取消页面的默认跳转行为
+            return false;
+        })
+    </script>
 </body>
 
 </html>
