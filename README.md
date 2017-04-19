@@ -1,8 +1,6 @@
 # 后台管理系统 -- studyIT项目
 
 ### 00. 项目介绍
-网站地址:
-API接口: doc.botue.com
 
 ### 01. 准备工作
 
@@ -73,22 +71,6 @@ index.php 的作用:
     接收路径描述, 根据路径的描述 include(导入) 不同的 html,
     把对应的网页显示到页面中, 起到 路由(route) 的作用.
     在这个项目中, 需要显示的文件为 views 文件夹中的所有 html 文件.
-    
-为什么需要 index.php:
-
-    因为 index.html 在文件夹 views 当中,
-    如果把网站的根目录设为 views 文件夹,
-    那么 views 的上一级文件夹就不能访问了.
-    所以此时就需要前后端的混合开发,
-    借助网站根目录的默认文件 index.php 来接收并显示所有的路径.
-    
- php 怎么用:
-    
-    所有的 c 系语言都有一些共性:
-    c, c++, c#, java, javascript, php等,
-    学习一门语言,其他变成语言都类似.
-    在 搜索引擎中搜索, 使用你要搜索的目标 php, 然后用你熟悉的名字来搜索
-    例如这里用到的字符串和数组方法.
 
 index.php 完整代码:
 
@@ -168,14 +150,6 @@ include_once( './views/' . $path . '/' . $filename . '.html' );
     如果没有登录, 无论访问哪一个页面都应该跳转到登录界面
     如果用户访问的是登录页, 则不进行跳转
     
-代码写在哪里
-    
-    由于是网站所有页面的通用功能
-    所以代码应该写在 assets/common.js中
-    再将common.js引入到 views/common/script.html 中
-
-怎么写
-    
 ```js
 // 登录验证:
 // 判断用户是否登录过, 如果登录过, 就什么也不做
@@ -196,10 +170,6 @@ if (!$.cookie('PHPSESSID') && location.pathname != '/index.php/login') {
 
     用户登录后, 需要拿到用户名及头像数据
     如果用户名及密码正确, 显示登录成功并跳转到首页
-代码写在哪里
-
-    这里是针对登录页的操作,应该写在 views/index/login.html 中
-怎么写
 
     1. 给 form 表单添加 id: loginForm
     2. 按照 api 要求的数据格式, 给用户名和密码的 input 标签加上 name 属性
@@ -237,15 +207,11 @@ $.ajax({
 return false;
 })
 ```
+
 ##### 登录跳转后: 更新(加载)用户信息
 功能描述
     
     用户登录成功跳转到首页后, 其用户名和头像需要显示在侧边栏.
-    
-如何更新用户信息
-    
-    1. 从 cookie 中取出数据; 
-    2. dom 操作.
 
     -> views/common/aside.html
     -> 找到对应的用户名和头像显示容器
