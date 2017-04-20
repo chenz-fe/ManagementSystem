@@ -15,6 +15,19 @@ a:hover,
 a:focus {
   text-decoration: none;
 }
+#cover_wheel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+#cover_wheel img {
+  width: 198px;
+  display: block;
+  margin: 200px auto;
+}
 .aside {
   position: fixed;
   left: 0;

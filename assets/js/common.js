@@ -1,7 +1,9 @@
-define(['jquery', 'template', 'cookie'], function ($, template) {
-	// NProgress.start();
+define(['jquery'
+	, 'template'
+	, 'nprogress'
+	, 'cookie'
+], function ($, template, nprogress) {
 
-	// NProgress.done();
 
 	// 课程管理子菜单显示隐藏
 	$('.navs ul').prev('a').on('click', function () {
@@ -33,11 +35,46 @@ define(['jquery', 'template', 'cookie'], function ($, template) {
 	// profile.tc_name
 	// profile.tc_avatar
 
-	if (location.pathname != '/index.php/login') {
-		var html = template('profileId', profile);
-		$('.aside .profile').html(html);
-	}
+	// 如果当前在登录页, 不执行后面的事件
+	if (location.pathname == '/index.php/login') return;
 
+	// 配置全局加载进度
+	// 在页面加载时, 增加转动齿轮的 gif 遮罩层, 加载完成后, 遮罩层消失
+	// 这是每个页面都需要用到的, 所有应该增加 ajax 全局事件, 并且放在页面 ajax 请求之前
+	// 页面开始加载: $.ajaxStart();
+	// 一个页面上可能不止发送一个 ajax 请求, 
+	// 这里需要调用一个所有 ajax 请求完成后执行的事件: $.ajaxStop();(加给 document 对象)
+	// $.ajaxStop()发生在所有 ajax 请求 complete 以后, 一个页面只会执行一次$.ajaxStop().
+	$(document).ajaxStart(function () {
+		// 页面顶部进度条开始加载
+		nprogress.start();
+
+		// 首先检测, 页面是否已经有进度条, 避免重复添加
+		if($('#cover_wheel').length > 0){
+			$('#cover_wheel').show();
+			return;
+		}
+		
+		$('<div id="cover_wheel"><img src="/assets/images/loading.gif"></div>')
+		.appendTo('body');
+		
+	}).ajaxStop(function () {
+		// 页面顶部进度条结束加载
+		nprogress.done();
+
+		// 加载结束隐藏进度条
+		$('#cover_wheel').fadeOut();
+	})
+
+
+	// 进度加载完成后, 把用户名和头像渲染到页面上
+	var html = template('profileId', profile);
+	$('.aside .profile').html(html);
+
+	// 首页没有 ajax 请求, 这里需要发送一个假的 ajax 请求,才有加载效果
+	$.ajax({
+		url:'/api/teacher'
+	})
 
 })
 
