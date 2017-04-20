@@ -33,7 +33,12 @@
     </div>
 
     <?php include_once( './views/common/script.html' ) ?>
+
     <script>
+        require(['login']);
+
+    </script>
+    <!--<script>
         // 监听表单提交事件
         $('#loginForm').on('submit', function () {
             // 序列化表单值, 把数据转换为 key=value&&key=value 形式的字符串
@@ -60,7 +65,7 @@
             // 取消页面的默认跳转行为
             return false;
         })
-    </script>
+    </script>-->
 </body>
 
 </html>
