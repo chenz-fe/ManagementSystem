@@ -32,8 +32,14 @@ var profile = JSON.parse($.cookie('profile'));
 // console.log(profile);
 // profile.tc_name
 // profile.tc_avatar
-var html = template('profileId', profile);
-$('.aside .profile').html(html);
+
+if (location.pathname != '/index.php/login') {
+	var html = template('profileId', profile);
+	$('.aside .profile').html(html);
+}
+
+
+
 
 
 
