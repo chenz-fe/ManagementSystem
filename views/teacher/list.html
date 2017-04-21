@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>学IT - 后台管理系统</title>
     <?php include( './views/common/style.html' ) ?>
 </head>
+
 <body>
-    
+
     <!-- 侧边栏 -->
     <?php include_once( './views/common/aside.html' ) ?>
-    
+
     <!-- 主体 -->
     <div class="main">
         <div class="container-fluid">
             <!-- 头部 -->
             <?php include_once( './views/common/header.html' ) ?>
-            
+
             <!-- 讲师列表 -->
             <div class="body teacher-list">
                 <!-- 面包屑 -->
@@ -37,7 +39,7 @@
                             </div>
                         </form>
                     </div>
-                    <table class="table table-striped table-bordered table-hover">
+                    <table id="teacher-list" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>编号</th>
@@ -46,11 +48,13 @@
                                 <th>年龄</th>
                                 <th>性别</th>
                                 <th>手机号码</th>
+                                <th>入职时间</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <!--讲师列表模板-->
+                            <!--<tr>
                                 <td>1</td>
                                 <td>赵玉川</td>
                                 <td>布头儿</td>
@@ -62,7 +66,7 @@
                                     <a href="/index.php/teacher/add" class="btn btn-info btn-xs">编 辑</a>
                                     <a href="javascript::" class="btn btn-warning btn-xs">注 销</a>
                                 </td>
-                            </tr>
+                            </tr>-->
                         </tbody>
                     </table>
                 </div>
@@ -79,11 +83,14 @@
                     <h4 class="panel-title">讲师信息</h4>
                 </div>
                 <div class="panel-body">
-                    <table class="table table-bordered table-condensed">
+                    <!-- 查看讲师信息 模板-->
+                    <!--<table class="table table-bordered table-condensed">
                         <tbody>
                             <tr>
-                                <th>姓名:</th><td>赵玉川</td>
-                                <th>职位:</th><td colspan="3">讲师</td>
+                                <th>姓名:</th>
+                                <td>赵玉川</td>
+                                <th>职位:</th>
+                                <td colspan="3">讲师</td>
                                 <td rowspan="4" width="128">
                                     <div class="avatar">
                                         <img src="/assets/images/default.png" alt="">
@@ -91,19 +98,26 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>花名:</th><td>麻衣长老</td>
-                                <th>出生日期:</th><td colspan="3">2015-11-13</td>
+                                <th>花名:</th>
+                                <td>麻衣长老</td>
+                                <th>出生日期:</th>
+                                <td colspan="3">2015-11-13</td>
                             </tr>
                             <tr>
-                                <th>性别:</th><td>男</td>
-                                <th>出生日期:</th><td colspan="3">1985-05-25</td>
+                                <th>性别:</th>
+                                <td>男</td>
+                                <th>出生日期:</th>
+                                <td colspan="3">1985-05-25</td>
                             </tr>
                             <tr>
-                                <th>手机号码:</th><td colspan="2">13051524959</td>
-                                <th>邮箱:</th><td colspan="2">zhaoyuchuan@itcast.cn</td>
+                                <th>手机号码:</th>
+                                <td colspan="2">13051524959</td>
+                                <th>邮箱:</th>
+                                <td colspan="2">zhaoyuchuan@itcast.cn</td>
                             </tr>
                             <tr>
-                                <th>籍贯:</th><td colspan="6">河北省 保定市 曲阳县</td>
+                                <th>籍贯:</th>
+                                <td colspan="6">河北省 保定市 曲阳县</td>
                             </tr>
                             <tr>
                                 <td colspan="7">
@@ -115,12 +129,94 @@
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table>-->
                 </div>
             </div>
         </div>
     </div>
 
+    <!--添加模板引擎-->
+
+    <!--teacher list 模板-->
+    <script type="text/template" id="teacherListTpl">
+        {{each list}}
+        <tr>
+            <td>{{$index+1}}</td>
+            <td>{{$value.tc_name}}</td>
+            <td>{{$value.tc_roster}}</td>
+            <td>{{$value.tc_birthday|age}}</td>
+            <td>{{$value.tc_gender|gender}}</td>
+            <td>{{$value.tc_cellphone|cellphone}}</td>
+            <td>{{$value.tc_join_date}}</td>
+            <td>
+                <a href="#teacherModal" data-toggle="modal" class="btn btn-info btn-xs checkTeacherInfo" data-id={{$value.tc_id}}>查 看</a>
+                <a href="/index.php/teacher/add" class="btn btn-info btn-xs">编 辑</a>
+                <a href="javascript::" class="btn btn-warning btn-xs">注 销</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+
+    <!--模态框-->
+    <script type="text/template" id="teacherInfoTpl">
+        <table class="table table-bordered table-condensed">
+            <tbody>
+                <tr>
+                    <th>姓名:</th>
+                    <td>{{tc_name}}</td>
+                    <th>职位:</th>
+                    <td colspan="3">讲师</td>
+                    <td rowspan="4" width="128">
+                        <div class="avatar">
+                            <img src="{{tc_avatar|avatar}}">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>花名:</th>
+                    <td>{{tc_roster}}</td>
+                    <th>出生日期:</th>
+                    <td colspan="3">{{tc_birthday}}</td>
+                </tr>
+                <tr>
+                    <th>性别:</th>
+                    <td>{{tc_gender|gender}}</td>
+                    <th>入职时间:</th>
+                    <td colspan="3">{{tc_join_date}}</td>
+                </tr>
+                <tr>
+                    <th>手机号码:</th>
+                    <td colspan="2">{{tc_cellphone|cellphone}}</td>
+                    <th>邮箱:</th>
+                    <td colspan="2">{{tc_email}}</td>
+                </tr>
+                <tr>
+                    <th>籍贯:</th>
+                    <td colspan="6">{{tc_hometown|hometown}}</td>
+                </tr>
+                <tr>
+                    <td colspan="7">
+                        <div class="introduce">
+                            {{@tc_introduce}}
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </script>
+
+
+
     <?php include_once( './views/common/script.html' ) ?>
+
+    <script>
+        require(['teacherList']);
+    </script>
+
+
+
+
 </body>
+
 </html>

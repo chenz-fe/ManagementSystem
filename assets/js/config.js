@@ -1,5 +1,6 @@
 require.config({
     baseUrl: '/',
+
     paths: {
         // 第三方的库
         jquery: 'node_modules/jquery/dist/jquery',
@@ -9,10 +10,19 @@ require.config({
         bootstrap: 'node_modules/bootstrap/dist/js/bootstrap',
         echarts: 'node_modules/echarts/dist/echarts',
 
+
         // 自有 js 文件
         common: 'assets/js/common',
         login: 'assets/js/index/login',
-        index: 'assets/js/index/index'
+        index: 'assets/js/index/index',
+        teacherList: 'assets/js/teacher/list',
+        filters: 'assets/js/artTemplateFilter'
+    },
+
+    shim: {
+        bootstrap: {
+            deps: ['jquery']
+        }
     }
 });
 

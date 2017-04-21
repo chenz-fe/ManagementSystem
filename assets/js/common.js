@@ -4,11 +4,16 @@ define(['jquery'
 	, 'cookie'
 ], function ($, template, nprogress) {
 
-
 	// 课程管理子菜单显示隐藏
 	$('.navs ul').prev('a').on('click', function () {
 		$(this).next().slideToggle();
 	});
+
+/*	$('.list-unstyled a').on('click',function(){
+		$('.list-unstyled').show();
+	})*/
+
+	
 
 	// 登录验证:
 	// 判断用户是否登录过, 如果登录过, 就什么也不做
@@ -50,14 +55,14 @@ define(['jquery'
 		nprogress.start();
 
 		// 首先检测, 页面是否已经有进度条, 避免重复添加
-		if($('#cover_wheel').length > 0){
+		if ($('#cover_wheel').length > 0) {
 			$('#cover_wheel').show();
 			return;
 		}
-		
+
 		$('<div id="cover_wheel"><img src="/assets/images/loading.gif"></div>')
-		.appendTo('body');
-		
+			.appendTo('body');
+
 	}).ajaxStop(function () {
 		// 页面顶部进度条结束加载
 		nprogress.done();
@@ -72,9 +77,57 @@ define(['jquery'
 	$('.aside .profile').html(html);
 
 	// 首页没有 ajax 请求, 这里需要发送一个假的 ajax 请求,才有加载效果
-	$.ajax({
-		url:'/api/teacher'
-	})
+	// $.ajax({
+	// 	url:'/api/teacher'
+	// })
+
+
+	// 实现侧边栏按钮点击高亮
+	// 通过类名和 pathname 的关系来实现.
+	var pathname = location.pathname;
+	// console.log(pathname);
+	// 可能出现的情况:
+	// 如果pathname为 '/' , '/index.php', 或者结尾为'index', 高亮的按钮类名为 calss="index"
+	// 其他的页面, 如'讲师管理''用户管理', pathname为'/index.php/teacher/list', 可以以'/'分组,
+	// 高亮的为pathname字符串的最后两组
+
+	// 方法1: 字符串及数组方法
+	/*if (pathname == '/' ||
+		pathname == '/index.php' ||
+		pathname.slice(1).split('/')[pathname.slice(1).split('/').length - 1] == 'index') {
+
+		$('.index').addClass('active');
+
+	} else {
+		pathname = pathname.slice(1);
+		var index = pathname.indexOf('/');
+		pathname = pathname.slice(index + 1).replace('/', '-');
+
+		$('.' + pathname).addClass('active');
+	}*/
+
+	// 方法2: 正则表达式(优化)
+	var r1 = /(^\/$)|(\php$)|(\index$)/,
+		r2 = /\/([^\/]+\/[^\/]+$)/;
+
+	if (r1.test(pathname)) {
+		$('.index').addClass('active');
+	} else {
+		$('.' + r2.exec(pathname)[1].replace('/', '-')).addClass('active');
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 })
 
