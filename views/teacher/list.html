@@ -148,10 +148,10 @@
             <td>{{$value.tc_gender|gender}}</td>
             <td>{{$value.tc_cellphone|cellphone}}</td>
             <td>{{$value.tc_join_date}}</td>
-            <td>
-                <a href="#teacherModal" data-toggle="modal" class="btn btn-info btn-xs checkTeacherInfo" data-id={{$value.tc_id}}>查 看</a>
-                <a href="/index.php/teacher/add" class="btn btn-info btn-xs">编 辑</a>
-                <a href="javascript::" class="btn btn-warning btn-xs">注 销</a>
+            <td data-id={{$value.tc_id}}>
+                <a href="#teacherModal" data-toggle="modal" class="btn btn-info btn-xs checkTeacherInfo">查 看</a>
+                <a href="/index.php/teacher/add" class="btn btn-info btn-xs teacherEditor">编 辑</a>
+                <a href="javascript:;" class="btn btn-warning btn-xs teacherStatus" data-teacherStatus={{$value.tc_status}}>{{$value.tc_status|teacherStatus}}</a>
             </td>
         </tr>
         {{/each}}

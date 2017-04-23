@@ -9,12 +9,6 @@ define(['jquery'
 		$(this).next().slideToggle();
 	});
 
-/*	$('.list-unstyled a').on('click',function(){
-		$('.list-unstyled').show();
-	})*/
-
-	
-
 	// 登录验证:
 	// 判断用户是否登录过, 如果登录过, 就什么也不做
 	// 如果没有登录过,
@@ -115,13 +109,6 @@ define(['jquery'
 	} else {
 		$('.' + r2.exec(pathname)[1].replace('/', '-')).addClass('active');
 	}
-
-
-
-
-
-
-
 
 
 

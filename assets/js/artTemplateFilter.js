@@ -29,6 +29,11 @@ define(['template'], function (template) {
         return hometown.split('|').join(' ');
     }
 
+    // 教师启用/注销
+    template.defaults.imports.teacherStatus = function (tc_status) {
+        return tc_status == 0 ? '启用' : '注销';
+    }
+
 
 
 });
